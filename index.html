@@ -1,0 +1,1931 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>深夜ゲーム工房｜100日チャレンジ</title>
+<meta name="description" content="毎日ひとつ、ブラウザで遊べるゲームを作り続けた100日間の記録。全100本、スマホでもPCでも無料でプレイできます。">
+<link rel="canonical" href="https://titan11111.github.io/shinya-game-kobo/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="深夜ゲーム工房">
+<meta property="og:title" content="深夜ゲーム工房｜ひとりで100本、ゲームを作った。">
+<meta property="og:description" content="毎日ひとつ、ブラウザで遊べるゲームを作り続けた100日間の記録。全100本、スマホでもPCでも無料でプレイできます。">
+<meta property="og:url" content="https://titan11111.github.io/shinya-game-kobo/">
+<meta property="og:image" content="https://titan11111.github.io/shinya-game-kobo/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@___titan_">
+<meta name="twitter:title" content="深夜ゲーム工房｜ひとりで100本、ゲームを作った。">
+<meta name="twitter:description" content="毎日ひとつ、ブラウザで遊べるゲームを作り続けた100日間の記録。全100本、スマホでもPCでも無料でプレイできます。">
+<meta name="twitter:image" content="https://titan11111.github.io/shinya-game-kobo/ogp.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f4efe2;
+    --ink-dim:#a99f8c;
+    --ground:#16141d;
+    --ground-raised:#1f1c28;
+    --ground-card:#242032;
+    --line:#332e42;
+    --gold:#e8b84b;
+    --gold-ink:#1b1708;
+    --teal:#54c6b3;
+    --coral:#e87a5d;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,.6);
+    --radius: 18px;
+    --font-display:'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans JP', system-ui, sans-serif;
+    --font-num:'Big Shoulders Display', 'Zen Kaku Gothic New', sans-serif;
+  }
+  :root[data-theme="light"]{
+    --ink:#231f2c;
+    --ink-dim:#6b6378;
+    --ground:#f3ede0;
+    --ground-raised:#ffffff;
+    --ground-card:#ffffff;
+    --line:#e3dbc9;
+    --gold:#b9872b;
+    --gold-ink:#fff8e8;
+    --teal:#1f8e7c;
+    --coral:#c6522f;
+    --shadow: 0 16px 40px -24px rgba(35,31,44,.25);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ink:#231f2c;
+      --ink-dim:#6b6378;
+      --ground:#f3ede0;
+      --ground-raised:#ffffff;
+      --ground-card:#ffffff;
+      --line:#e3dbc9;
+      --gold:#b9872b;
+      --gold-ink:#fff8e8;
+      --teal:#1f8e7c;
+      --coral:#c6522f;
+      --shadow: 0 16px 40px -24px rgba(35,31,44,.25);
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--font-display);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px);}
+
+  /* ── HERO ───────────────────────────── */
+  .hero{
+    position:relative;
+    padding:clamp(64px,10vw,110px) 0 clamp(40px,6vw,64px);
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, color-mix(in srgb, var(--gold) 20%, transparent), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 110% 10%, color-mix(in srgb, var(--teal) 16%, transparent), transparent 60%);
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.5em;
+    font-size:.82rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold);
+    font-weight:700;margin-bottom:1.4rem;
+  }
+  .eyebrow::before{content:"";width:28px;height:2px;background:var(--gold);display:inline-block;}
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(2.4rem, 6.4vw, 4.6rem);
+    line-height:1.08;
+    margin:0 0 1rem;
+    text-wrap:balance;
+    letter-spacing:-.01em;
+  }
+  h1.title em{
+    font-style:normal;
+    color:var(--gold);
+    position:relative;
+  }
+  .hero-sub{
+    max-width:46ch;
+    font-size:clamp(1.02rem,2vw,1.2rem);
+    color:var(--ink-dim);
+    margin:0 0 2.6rem;
+  }
+  .stat-row{
+    display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,48px);
+    padding-top:2.2rem;border-top:1px solid var(--line);
+  }
+  .stat{min-width:120px;}
+  .stat .num{
+    font-family:var(--font-num);
+    font-weight:900;
+    font-size:clamp(2.2rem,4.2vw,3.2rem);
+    line-height:1;
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .num span{color:var(--gold);}
+  .stat .label{
+    font-size:.82rem;color:var(--ink-dim);
+    letter-spacing:.04em;margin-top:.35rem;
+  }
+
+  /* ── CONTROLS ───────────────────────── */
+  .controls{
+    position:sticky;top:0;z-index:20;
+    background:color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .controls-inner{
+    display:flex;align-items:center;gap:10px;
+    flex-wrap:wrap;
+  }
+  .chips{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+  .chip{
+    font-family:var(--font-display);
+    font-size:.84rem;font-weight:500;
+    background:var(--ground-raised);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    padding:7px 14px;border-radius:999px;
+    cursor:pointer;transition:all .15s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{border-color:var(--gold);color:var(--ink);}
+  .chip.active{
+    background:var(--gold);border-color:var(--gold);
+    color:var(--gold-ink);font-weight:700;
+  }
+  .chip-count{opacity:.65;font-size:.9em;}
+  .chip.active .chip-count{opacity:.8;}
+  .shuffle-btn{
+    font-family:var(--font-display);
+    font-weight:700;font-size:.86rem;
+    background:transparent;border:1px solid var(--teal);
+    color:var(--teal);padding:8px 16px;border-radius:999px;
+    cursor:pointer;flex-shrink:0;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .shuffle-btn:hover{background:color-mix(in srgb, var(--teal) 14%, transparent);}
+  .shuffle-btn:active{transform:scale(.96);}
+
+  /* ── GRID ───────────────────────────── */
+  .grid-section{padding:clamp(40px,6vw,70px) 0 100px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    gap:22px;
+  }
+  .card{
+    background:var(--ground-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
+    opacity:0;transform:translateY(16px);
+  }
+  .card.in-view{opacity:1;transform:translateY(0);}
+  .card.is-hidden{display:none;}
+  .card:hover{transform:translateY(-4px);}
+  .card.flash{outline:3px solid var(--gold);outline-offset:3px;}
+
+  .card-media{position:relative;display:block;aspect-ratio:16/9;background:var(--ground-raised);overflow:hidden;}
+  .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+  .card:hover .card-media img{transform:scale(1.06);}
+  .card-play{
+    position:absolute;right:10px;bottom:10px;
+    background:color-mix(in srgb, var(--ground) 72%, transparent);
+    color:var(--ink);font-size:.74rem;font-weight:700;
+    padding:6px 11px;border-radius:999px;
+    opacity:0;transform:translateY(6px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .card:hover .card-play{opacity:1;transform:translateY(0);}
+
+  .card-media-pending{
+    display:flex;align-items:center;justify-content:center;
+    background:repeating-linear-gradient(135deg, var(--ground-raised) 0 14px, var(--ground) 14px 28px);
+  }
+  .pending-label{
+    font-family:var(--font-num);font-weight:900;
+    font-size:1.1rem;letter-spacing:.08em;
+    color:var(--ink-dim);
+    border:2px dashed var(--line);
+    padding:8px 18px;border-radius:999px;
+  }
+  .card-pending{opacity:.72 !important;}
+  .card-pending:hover{transform:none;}
+
+  .card-body{padding:16px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .day-badge{
+    font-family:var(--font-num);font-weight:900;
+    font-size:1rem;color:var(--gold);
+    letter-spacing:.02em;font-variant-numeric:tabular-nums;
+  }
+  .genre-pill{
+    font-size:.68rem;font-weight:700;letter-spacing:.03em;
+    background:color-mix(in srgb, var(--teal) 16%, transparent);
+    color:var(--teal);padding:4px 10px;border-radius:999px;
+    white-space:nowrap;
+  }
+  .card-title{
+    margin:0;font-size:1.04rem;font-weight:700;line-height:1.38;
+    text-wrap:balance;
+  }
+  .card-title a{text-decoration:none;}
+  .card-title a:hover{color:var(--gold);}
+  .card-title-pending{color:var(--ink-dim);font-weight:500;}
+  .card-blurb{
+    margin:0;font-size:.86rem;color:var(--ink-dim);
+    line-height:1.6;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-date{
+    margin-top:auto;padding-top:6px;
+    font-family:var(--font-num);font-size:.78rem;
+    color:var(--ink-dim);font-variant-numeric:tabular-nums;
+    border-top:1px solid var(--line);
+  }
+
+  .empty-state{
+    display:none;text-align:center;padding:60px 20px;color:var(--ink-dim);
+  }
+  .empty-state.show{display:block;}
+
+  /* ── FOOTER ─────────────────────────── */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0 60px;
+    color:var(--ink-dim);font-size:.88rem;
+  }
+  footer a{color:var(--gold);text-decoration:none;font-weight:700;}
+  footer a:hover{text-decoration:underline;}
+  .footer-row{display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between;align-items:baseline;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .card{transition:none;opacity:1;transform:none;}
+    .card-media img{transition:none;}
+  }
+
+  .share{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.6rem;align-items:center}
+  .share-label{font-size:.8rem;color:var(--ink-dim);letter-spacing:.08em;margin-right:4px}
+  .share a,.share button{font-family:var(--font-display);font-size:.84rem;font-weight:700;text-decoration:none;
+    padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--ground-raised);color:var(--ink);cursor:pointer;min-height:40px;display:inline-flex;align-items:center}
+  .share a:hover,.share button:hover{border-color:var(--gold);color:var(--gold)}
+
+  @media (max-width:640px){
+    .controls-inner{flex-wrap:nowrap;flex-direction:column;align-items:stretch;gap:8px}
+    .chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+    .chips::-webkit-scrollbar{display:none}
+    .shuffle-btn{align-self:flex-start}
+  }
+</style>
+
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Solo Dev Marathon</span>
+      <h1 class="title">ひとりで<em>100本</em>、<br>ゲームを作った。</h1>
+      <p class="hero-sub">毎日ひとつ、ブラウザで遊べるゲームを作り続けた100日間の記録。猫・忍者・UFO・深夜のコンビニ——思いつきがそのまま形になった日もあれば、唸りながら仕上げた日もある。2026.07.18 〜 2026.10.25、101日目からは舞台をUnityへ。</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">100<span>/100</span></div><div class="label">プレイ可能</div></div>
+        <div class="stat"><div class="num">14</div><div class="label">ジャンル</div></div>
+        <div class="stat"><div class="num">101<span>日目〜</span></div><div class="label">Unity版は別冊へ</div></div>
+      </div>
+      <div class="share" id="share">
+        <span class="share-label">SHARE</span>
+        <a id="shX" target="_blank" rel="noopener">𝕏 でシェア</a>
+        <a id="shLine" target="_blank" rel="noopener">LINEで送る</a>
+        <a id="shFb" target="_blank" rel="noopener">Facebook</a>
+        <button id="shCopy" type="button">🔗 リンクをコピー</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="wrap controls-inner">
+      <div class="chips" id="chips">
+        <button class="chip active" data-filter="all">すべて <span class="chip-count">100</span></button>
+        <button class="chip" data-filter="その他">その他 <span class="chip-count">38</span></button>
+<button class="chip" data-filter="アクション">アクション <span class="chip-count">14</span></button>
+<button class="chip" data-filter="シミュレーション">シミュレーション <span class="chip-count">6</span></button>
+<button class="chip" data-filter="シューティング">シューティング <span class="chip-count">5</span></button>
+<button class="chip" data-filter="レース">レース <span class="chip-count">5</span></button>
+<button class="chip" data-filter="猫">猫 <span class="chip-count">4</span></button>
+<button class="chip" data-filter="RPG">RPG <span class="chip-count">4</span></button>
+<button class="chip" data-filter="クイズ">クイズ <span class="chip-count">4</span></button>
+<button class="chip" data-filter="パズル">パズル <span class="chip-count">4</span></button>
+<button class="chip" data-filter="ノベル">ノベル <span class="chip-count">4</span></button>
+<button class="chip" data-filter="ホラー">ホラー <span class="chip-count">3</span></button>
+<button class="chip" data-filter="鬼ごっこ">鬼ごっこ <span class="chip-count">4</span></button>
+<button class="chip" data-filter="アーケード">アーケード <span class="chip-count">3</span></button>
+<button class="chip" data-filter="まったり">まったり <span class="chip-count">2</span></button>
+      </div>
+      <button class="shuffle-btn" id="shuffleBtn">🎲 ランダムに1本遊ぶ</button>
+    </div>
+  </div>
+
+  <section class="grid-section">
+    <div class="wrap">
+      <div class="grid" id="grid">
+        <article class="card" data-genre="猫" data-day="1">
+  <a class="card-media" href="https://titan11111.github.io/001-neko_catch_game-main/" target="_blank" rel="noopener">
+    <img src="shots/day001.jpg" alt="猫キャッチゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 001</span>
+      <span class="genre-pill" data-genre-pill="猫">猫</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/001-neko_catch_game-main/" target="_blank" rel="noopener">猫キャッチゲーム</a></h3>
+    <p class="card-blurb">猫キャッチ落ちてくる猫をキャッチするだけでなく、Bショットで得点2倍になる設定を追加しました。</p>
+    <time class="card-date" datetime="2026-07-18">2026.07.18</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="2">
+  <a class="card-media" href="https://titan11111.github.io/002-kagoubutu_game/" target="_blank" rel="noopener">
+    <img src="shots/day002.jpg" alt="化合物ラボ — 反応式タイムアタック" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 002</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/002-kagoubutu_game/" target="_blank" rel="noopener">化合物ラボ — 反応式タイムアタック</a></h3>
+    <p class="card-blurb">100日チャレンジ2/100 「化合物ラボ — 反応式タイムアタック」 A列＋B列を組み合わせて、正しい物質を作る化…</p>
+    <time class="card-date" datetime="2026-07-19">2026.07.19</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="3">
+  <a class="card-media" href="https://titan11111.github.io/003-amida-game/" target="_blank" rel="noopener">
+    <img src="shots/day003.jpg" alt="あみだの試練" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 003</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/003-amida-game/" target="_blank" rel="noopener">あみだの試練</a></h3>
+    <p class="card-blurb">今日のゲームはあみだくじです。 和風テイストで統一感を出すのにこだわりました。</p>
+    <time class="card-date" datetime="2026-07-20">2026.07.20</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="4">
+  <a class="card-media" href="https://titan11111.github.io/004-battle-game/" target="_blank" rel="noopener">
+    <img src="shots/day004.jpg" alt="魔王復活アリーナ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 004</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/004-battle-game/" target="_blank" rel="noopener">魔王復活アリーナ</a></h3>
+    <p class="card-blurb">バトルゲームを作りました。戦闘が終わったら、アイテムを選べるようにしました。戦闘画面が縦スクロールになったので、また…</p>
+    <time class="card-date" datetime="2026-07-21">2026.07.21</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="5">
+  <a class="card-media" href="https://titan11111.github.io/005-meiro_game/" target="_blank" rel="noopener">
+    <img src="shots/day005.jpg" alt="迷宮クエスト" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 005</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/005-meiro_game/" target="_blank" rel="noopener">迷宮クエスト</a></h3>
+    <p class="card-blurb">100日チャレンジ 5/100 ミミックゲームを作りました。 ミミック極限と問題だしこれからよ</p>
+    <time class="card-date" datetime="2026-07-22">2026.07.22</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="6">
+  <a class="card-media" href="https://titan11111.github.io/006-eigo-game/" target="_blank" rel="noopener">
+    <img src="shots/day006.jpg" alt="English Quest - 英単語クイズ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 006</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/006-eigo-game/" target="_blank" rel="noopener">English Quest - 英単語クイズ</a></h3>
+    <p class="card-blurb">！段階的にネタを捻り出すのが大変になってきました。単語に答えて敵を排除。間違った単語を見直して体力回復。というゲーム…</p>
+    <time class="card-date" datetime="2026-07-23">2026.07.23</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="7">
+  <a class="card-media" href="https://titan11111.github.io/007-iro_game/" target="_blank" rel="noopener">
+    <img src="shots/day007.jpg" alt="色育成図鑑ゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 007</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/007-iro_game/" target="_blank" rel="noopener">色育成図鑑ゲーム</a></h3>
+    <p class="card-blurb">は微調整に時間がかかり、ハードでした。混色ゲームです。</p>
+    <time class="card-date" datetime="2026-07-24">2026.07.24</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="8">
+  <a class="card-media" href="https://titan11111.github.io/008-sannaru_game/" target="_blank" rel="noopener">
+    <img src="shots/day008.jpg" alt="鉱物融合ラボ - Gem Alchemist" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 008</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/008-sannaru_game/" target="_blank" rel="noopener">鉱物融合ラボ - Gem Alchemist</a></h3>
+    <p class="card-blurb">は鉱物生成ラボを作りました。 音や画像を工夫したよ</p>
+    <time class="card-date" datetime="2026-07-25">2026.07.25</time>
+  </div>
+</article>
+<article class="card" data-genre="RPG" data-day="9">
+  <a class="card-media" href="https://titan11111.github.io/009-battle2-game/" target="_blank" rel="noopener">
+    <img src="shots/day009.jpg" alt="バトルクイズゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 009</span>
+      <span class="genre-pill" data-genre-pill="RPG">RPG</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/009-battle2-game/" target="_blank" rel="noopener">バトルクイズゲーム</a></h3>
+    <p class="card-blurb">【バトルクイズゲーム】 勇者が裸一貫で魔王に決めるRPG。 クイズで敵を倒す、装備を整える、台風最終決戦へ。</p>
+    <time class="card-date" datetime="2026-07-26">2026.07.26</time>
+  </div>
+</article>
+<article class="card" data-genre="クイズ" data-day="10">
+  <a class="card-media" href="https://titan11111.github.io/010-senntaku_game/" target="_blank" rel="noopener">
+    <img src="shots/day010.jpg" alt="きまぐれキャットルーム - クイズでごはん" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 010</span>
+      <span class="genre-pill" data-genre-pill="クイズ">クイズ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/010-senntaku_game/" target="_blank" rel="noopener">きまぐれキャットルーム - クイズでごはん</a></h3>
+    <p class="card-blurb">ネコ遊びゲームを作りました。猫のSVGに大苦戦しました^_^</p>
+    <time class="card-date" datetime="2026-07-27">2026.07.27</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="11">
+  <a class="card-media" href="https://titan11111.github.io/011-kaimono_game/" target="_blank" rel="noopener">
+    <img src="shots/day011.jpg" alt="裏路地の骨董堂" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 011</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/011-kaimono_game/" target="_blank" rel="noopener">裏路地の骨董堂</a></h3>
+    <p class="card-blurb">今日も何とか投稿させていただきます。 ゲストとの取引を楽しむゲームです。</p>
+    <time class="card-date" datetime="2026-07-28">2026.07.28</time>
+  </div>
+</article>
+<article class="card" data-genre="シューティング" data-day="12">
+  <a class="card-media" href="https://titan11111.github.io/012-rocket/" target="_blank" rel="noopener">
+    <img src="shots/day012.jpg" alt="LIFT OFF — 重力に勝て。" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 012</span>
+      <span class="genre-pill" data-genre-pill="シューティング">シューティング</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/012-rocket/" target="_blank" rel="noopener">LIFT OFF — 重力に勝て。</a></h3>
+    <p class="card-blurb">毎日だといろんなことが決まりますね。本当に。ロケットゲームです。宇宙への憧れをゲームしました。</p>
+    <time class="card-date" datetime="2026-07-29">2026.07.29</time>
+  </div>
+</article>
+<article class="card" data-genre="クイズ" data-day="13">
+  <a class="card-media" href="https://titan11111.github.io/013-histry/" target="_blank" rel="noopener">
+    <img src="shots/day013.jpg" alt="歴史天下統一" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 013</span>
+      <span class="genre-pill" data-genre-pill="クイズ">クイズ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/013-histry/" target="_blank" rel="noopener">歴史天下統一</a></h3>
+    <p class="card-blurb">歴史ゲームを作りました。世界観統一に力を注ぎました 日本近代歴史ゲーム [ ]</p>
+    <time class="card-date" datetime="2026-07-30">2026.07.30</time>
+  </div>
+</article>
+<article class="card" data-genre="パズル" data-day="14">
+  <a class="card-media" href="https://titan11111.github.io/014-dokidoki/" target="_blank" rel="noopener">
+    <img src="shots/day014.jpg" alt="謎の倉庫からの脱出" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 014</span>
+      <span class="genre-pill" data-genre-pill="パズル">パズル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/014-dokidoki/" target="_blank" rel="noopener">謎の倉庫からの脱出</a></h3>
+    <p class="card-blurb">今日はUIが来てくれて嬉しいです。 もつと世界観を固めるといいものができるでしょうね。</p>
+    <time class="card-date" datetime="2026-07-31">2026.07.31</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="15">
+  <a class="card-media" href="https://titan11111.github.io/015-kobun-novel/" target="_blank" rel="noopener">
+    <img src="shots/day015.jpg" alt="月夜綺譚 ─ 古文サウンドノベル" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 015</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/015-kobun-novel/" target="_blank" rel="noopener">月夜綺譚 ─ 古文サウンドノベル</a></h3>
+    <p class="card-blurb">子供に古文に親しんでもらえるために作りました。</p>
+    <time class="card-date" datetime="2026-08-01">2026.08.01</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="16">
+  <a class="card-media" href="https://titan11111.github.io/016-nigeru/" target="_blank" rel="noopener">
+    <img src="shots/day016.jpg" alt="ROBOT RUNNER: NEON SURVIVOR - POSITION FIX" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 016</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/016-nigeru/" target="_blank" rel="noopener">ROBOT RUNNER: NEON SURVIVOR - POSITION FIX</a></h3>
+    <p class="card-blurb">はロボットアクションゲームを投稿します。思い通りの修正が出来ず苦労しました🎶 アクションゲーム ゲーム制作</p>
+    <time class="card-date" datetime="2026-08-02">2026.08.02</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="17">
+  <a class="card-media" href="https://titan11111.github.io/017-action/" target="_blank" rel="noopener">
+    <img src="shots/day017.jpg" alt="🌆 サイバーパンク・ネオシティ・アクション" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 017</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/017-action/" target="_blank" rel="noopener">🌆 サイバーパンク・ネオシティ・アクション</a></h3>
+    <p class="card-blurb">簡単ですが、遊びやすいと思います。</p>
+    <time class="card-date" datetime="2026-08-03">2026.08.03</time>
+  </div>
+</article>
+<article class="card" data-genre="アーケード" data-day="18">
+  <a class="card-media" href="https://titan11111.github.io/018-shooting-gallery/" target="_blank" rel="noopener">
+    <img src="shots/day018.jpg" alt="縁日の射的ゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 018</span>
+      <span class="genre-pill" data-genre-pill="アーケード">アーケード</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/018-shooting-gallery/" target="_blank" rel="noopener">縁日の射的ゲーム</a></h3>
+    <p class="card-blurb">縁日の射的ゲームです。隠し要素あります。</p>
+    <time class="card-date" datetime="2026-08-04">2026.08.04</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="19">
+  <a class="card-media" href="https://titan11111.github.io/019-skyresku/" target="_blank" rel="noopener">
+    <img src="shots/day019.jpg" alt="Parachute Rescue Deluxe" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 019</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/019-skyresku/" target="_blank" rel="noopener">Parachute Rescue Deluxe</a></h3>
+    <p class="card-blurb">の雰囲気がレトロで楽しんでます。ただちょっと冗談でした💦</p>
+    <time class="card-date" datetime="2026-08-05">2026.08.05</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="20">
+  <a class="card-media" href="https://titan11111.github.io/020-taisyou/" target="_blank" rel="noopener">
+    <img src="shots/day020.jpg" alt="対称ゲーム｜墨の舞" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 020</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/020-taisyou/" target="_blank" rel="noopener">対称ゲーム｜墨の舞</a></h3>
+    <p class="card-blurb">対象の絵を描くゲームを作ってみました。</p>
+    <time class="card-date" datetime="2026-08-06">2026.08.06</time>
+  </div>
+</article>
+<article class="card" data-genre="ノベル" data-day="21">
+  <a class="card-media" href="https://titan11111.github.io/021-sanpo/" target="_blank" rel="noopener">
+    <img src="shots/day021.jpg" alt="散歩中の事件簿 - レトロ探偵ADV" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 021</span>
+      <span class="genre-pill" data-genre-pill="ノベル">ノベル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/021-sanpo/" target="_blank" rel="noopener">散歩中の事件簿 - レトロ探偵ADV</a></h3>
+    <p class="card-blurb">はサウンドノベルを作成しました。散歩中に起きたイベントを解決するゲームです。</p>
+    <time class="card-date" datetime="2026-08-07">2026.08.07</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="22">
+  <a class="card-media" href="https://titan11111.github.io/215-spacefantasy/" target="_blank" rel="noopener">
+    <img src="shots/day022.jpg" alt="Cosmic Runner" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 022</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/215-spacefantasy/" target="_blank" rel="noopener">Cosmic Runner</a></h3>
+    <p class="card-blurb">横スクロールアクションです。雰囲気はだせました。 ただし、途中で中断してしまいます😢</p>
+    <time class="card-date" datetime="2026-08-08">2026.08.08</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="23">
+  <a class="card-media" href="https://titan11111.github.io/023-demae/" target="_blank" rel="noopener">
+    <img src="shots/day023.jpg" alt="出前3Dゲーム｜爆速中華" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 023</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/023-demae/" target="_blank" rel="noopener">出前3Dゲーム｜爆速中華</a></h3>
+    <p class="card-blurb">出前配達ゲームです。PC💻推奨です。10回出前にして当日をゲットするゲームです。</p>
+    <time class="card-date" datetime="2026-08-09">2026.08.09</time>
+  </div>
+</article>
+<article class="card" data-genre="まったり" data-day="24">
+  <a class="card-media" href="https://titan11111.github.io/024-kotori/" target="_blank" rel="noopener">
+    <img src="shots/day024.jpg" alt="ことりの空さんぽ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 024</span>
+      <span class="genre-pill" data-genre-pill="まったり">まったり</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/024-kotori/" target="_blank" rel="noopener">ことりの空さんぽ</a></h3>
+    <p class="card-blurb">今日は小鳥が子供にエサを届けるゲームを作りました。癒しになれば嬉しいです。</p>
+    <time class="card-date" datetime="2026-08-10">2026.08.10</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="25">
+  <a class="card-media" href="https://titan11111.github.io/025-kamigonn/" target="_blank" rel="noopener">
+    <img src="shots/day025.jpg" alt="描きモン育成研究所 - DRAWMON LAB" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 025</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/025-kamigonn/" target="_blank" rel="noopener">描きモン育成研究所 - DRAWMON LAB</a></h3>
+    <p class="card-blurb">手書きでキャラを描いたら、強さが決まりました。 そして育成ができるゲームを作りました。</p>
+    <time class="card-date" datetime="2026-08-11">2026.08.11</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="26">
+  <a class="card-media" href="https://titan11111.github.io/026-bouzu/" target="_blank" rel="noopener">
+    <img src="shots/day026.jpg" alt="僧侶の相談ゲーム - 悟りの道 -" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 026</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/026-bouzu/" target="_blank" rel="noopener">僧侶の相談ゲーム - 悟りの道 -</a></h3>
+    <p class="card-blurb">今日は相談ゲームを作りました。かなりのことを言って、徳を優先ゲームです。</p>
+    <time class="card-date" datetime="2026-08-12">2026.08.12</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="27">
+  <a class="card-media" href="https://titan11111.github.io/027-mayoimori/" target="_blank" rel="noopener">
+    <img src="shots/day027.jpg" alt="迷いの森 — 供えの栗" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 027</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/027-mayoimori/" target="_blank" rel="noopener">迷いの森 — 供えの栗</a></h3>
+    <p class="card-blurb">精霊より多くどんぐりを集めて、鳥居⛩️をくぐれば勝ちです🎶</p>
+    <time class="card-date" datetime="2026-08-14">2026.08.14</time>
+  </div>
+</article>
+<article class="card" data-genre="クイズ" data-day="28">
+  <a class="card-media" href="https://titan11111.github.io/028-quiz-hunter/" target="_blank" rel="noopener">
+    <img src="shots/day028.jpg" alt="Quiz Hunter" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 028</span>
+      <span class="genre-pill" data-genre-pill="クイズ">クイズ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/028-quiz-hunter/" target="_blank" rel="noopener">Quiz Hunter</a></h3>
+    <p class="card-blurb">クイズゲームを作りました。小学生向けで、クイズに耐えると、敵がだんだん強くなります。</p>
+    <time class="card-date" datetime="2026-08-15">2026.08.15</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="29">
+  <a class="card-media" href="https://titan11111.github.io/203-school-fight/" target="_blank" rel="noopener">
+    <img src="shots/day029.jpg" alt="スクールクエスト - 桜舞う街の放課後ARPG" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 029</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/203-school-fight/" target="_blank" rel="noopener">スクールクエスト - 桜舞う街の放課後ARPG</a></h3>
+    <p class="card-blurb">の学校のテーマになったアクションRPGを作りました。 犯された校長をやっつけて学校の平和をもっとそう</p>
+    <time class="card-date" datetime="2026-08-16">2026.08.16</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="30">
+  <a class="card-media" href="https://titan11111.github.io/030-yugudora/" target="_blank" rel="noopener">
+    <img src="shots/day030.jpg" alt="ユグドラ幻想戦記" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 030</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/030-yugudora/" target="_blank" rel="noopener">ユグドラ幻想戦記</a></h3>
+    <p class="card-blurb">🌳 ユグドラ幻想戦記 世界樹を巡るファンタジーバトル。スマホですぐ遊べます。</p>
+    <time class="card-date" datetime="2026-08-17">2026.08.17</time>
+  </div>
+</article>
+<article class="card" data-genre="シューティング" data-day="31">
+  <a class="card-media" href="https://titan11111.github.io/031-shoot/" target="_blank" rel="noopener">
+    <img src="shots/day031.jpg" alt="ビームシューターゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 031</span>
+      <span class="genre-pill" data-genre-pill="シューティング">シューティング</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/031-shoot/" target="_blank" rel="noopener">ビームシューターゲーム</a></h3>
+    <p class="card-blurb">ビームシューター 土星・北斗七星・銀河を駆け、進化するメカボスに見極め宇宙シューティングです。</p>
+    <time class="card-date" datetime="2026-08-18">2026.08.18</time>
+  </div>
+</article>
+<article class="card" data-genre="アーケード" data-day="32">
+  <a class="card-media" href="https://titan11111.github.io/199-pinball/" target="_blank" rel="noopener">
+    <img src="shots/day032.jpg" alt="NEON PINBALL JS" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 032</span>
+      <span class="genre-pill" data-genre-pill="アーケード">アーケード</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/199-pinball/" target="_blank" rel="noopener">NEON PINBALL JS</a></h3>
+    <p class="card-blurb">ネオンサイバー風ピンボールです。左右フリッパーでボールを操る。スコアを稼ぎ、ハイスコアに挑戦。ぜひプレイしてください…</p>
+    <time class="card-date" datetime="2026-08-19">2026.08.19</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="33">
+  <a class="card-media" href="https://titan11111.github.io/033-nekubi/" target="_blank" rel="noopener">
+    <img src="shots/day033.jpg" alt="影ノ城・忍殺行" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 033</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/033-nekubi/" target="_blank" rel="noopener">影ノ城・忍殺行</a></h3>
+    <p class="card-blurb">毎日縛りはドキドキです。携帯で遊べますが、💻プレイを推奨します。</p>
+    <time class="card-date" datetime="2026-08-20">2026.08.20</time>
+  </div>
+</article>
+<article class="card" data-genre="RPG" data-day="34">
+  <a class="card-media" href="https://titan11111.github.io/034-demon_castle/" target="_blank" rel="noopener">
+    <img src="shots/day034.jpg" alt="魔王城と母" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 034</span>
+      <span class="genre-pill" data-genre-pill="RPG">RPG</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/034-demon_castle/" target="_blank" rel="noopener">魔王城と母</a></h3>
+    <p class="card-blurb">サウンドノベルに挑戦しました。お時間を許す方はぜひプレイしてください。</p>
+    <time class="card-date" datetime="2026-08-21">2026.08.21</time>
+  </div>
+</article>
+<article class="card" data-genre="ホラー" data-day="35">
+  <a class="card-media" href="https://titan11111.github.io/212-horaa/" target="_blank" rel="noopener">
+    <img src="shots/day035.jpg" alt="深夜のコンビニ — 夜勤" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 035</span>
+      <span class="genre-pill" data-genre-pill="ホラー">ホラー</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/212-horaa/" target="_blank" rel="noopener">深夜のコンビニ — 夜勤</a></h3>
+    <p class="card-blurb">【深夜のコンビニ店員】深夜0時から6時まで続く夜勤ホラー。客は来る。電話は鳴る。誰かが、見ている。</p>
+    <time class="card-date" datetime="2026-08-23">2026.08.23</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="36">
+  <a class="card-media" href="https://titan11111.github.io/036-quiz4/" target="_blank" rel="noopener">
+    <img src="shots/day036.jpg" alt="QUIZ//NEON：記憶都市の支配者" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 036</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/036-quiz4/" target="_blank" rel="noopener">QUIZ//NEON：記憶都市の支配者</a></h3>
+    <p class="card-blurb">記録なし</p>
+    <time class="card-date" datetime="">—</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="37">
+  <a class="card-media" href="https://titan11111.github.io/037-stickman-jump/" target="_blank" rel="noopener">
+    <img src="shots/day037.jpg" alt="HYPER LAUNCHER 15X" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 037</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/037-stickman-jump/" target="_blank" rel="noopener">HYPER LAUNCHER 15X</a></h3>
+    <p class="card-blurb">とある人間がジャンプして石をよけるゲームを作りました。 なんとなくやってみようと思いました。</p>
+    <time class="card-date" datetime="2026-08-24">2026.08.24</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="38">
+  <a class="card-media" href="https://titan11111.github.io/038-today-exe/" target="_blank" rel="noopener">
+    <img src="shots/day038.jpg" alt="TODAY.exe" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 038</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/038-today-exe/" target="_blank" rel="noopener">TODAY.exe</a></h3>
+    <p class="card-blurb">1日を攻略する。でも、頑張りすぎてもいけない。 月曜から金曜まで、07:00〜23:00の行動を3択で決める「1日シ…</p>
+    <time class="card-date" datetime="2026-08-25">2026.08.25</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="39">
+  <a class="card-media" href="https://titan11111.github.io/039-koiking/" target="_blank" rel="noopener">
+    <img src="shots/day039.jpg" alt="鯉の滝登り：龍への道 — スプライト版" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 039</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/039-koiking/" target="_blank" rel="noopener">鯉の滝登り：龍への道 — スプライト版</a></h3>
+    <p class="card-blurb">鯉の滝登りゲームです。世界観にこだわりました。</p>
+    <time class="card-date" datetime="2026-08-26">2026.08.26</time>
+  </div>
+</article>
+<article class="card" data-genre="アーケード" data-day="40">
+  <a class="card-media" href="https://titan11111.github.io/216-bowling/" target="_blank" rel="noopener">
+    <img src="shots/day040.jpg" alt="3D Bowling Master" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 040</span>
+      <span class="genre-pill" data-genre-pill="アーケード">アーケード</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/216-bowling/" target="_blank" rel="noopener">3D Bowling Master</a></h3>
+    <p class="card-blurb">ボーリングゲームを作りました。シンプルで爽快です。</p>
+    <time class="card-date" datetime="2026-08-27">2026.08.27</time>
+  </div>
+</article>
+<article class="card" data-genre="ノベル" data-day="41">
+  <a class="card-media" href="https://titan11111.github.io/040-sound-novel-creator/" target="_blank" rel="noopener">
+    <img src="shots/day041.jpg" alt="STORY//3 - サウンドノベル自動生成" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 041</span>
+      <span class="genre-pill" data-genre-pill="ノベル">ノベル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/040-sound-novel-creator/" target="_blank" rel="noopener">STORY//3 - サウンドノベル自動生成</a></h3>
+    <p class="card-blurb">サウンドノベルクリエイター</p>
+    <time class="card-date" datetime="2026-08-28">2026.08.28</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="42">
+  <a class="card-media" href="https://titan11111.github.io/042-deai/" target="_blank" rel="noopener">
+    <img src="shots/day042.jpg" alt="運命の角激突 - 視界良好・交差点ワイド版" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 042</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/042-deai/" target="_blank" rel="noopener">運命の角激突 - 視界良好・交差点ワイド版</a></h3>
+    <p class="card-blurb">角でぶつかって出会いが起きるゲームを作りました。</p>
+    <time class="card-date" datetime="2026-08-29">2026.08.29</time>
+  </div>
+</article>
+<article class="card" data-genre="鬼ごっこ" data-day="43">
+  <a class="card-media" href="https://titan11111.github.io/120-konigokkogame/" target="_blank" rel="noopener">
+    <img src="shots/day043.jpg" alt="おうちに帰れ！ ─ HD-2D かくれんぼ潜入" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 043</span>
+      <span class="genre-pill" data-genre-pill="鬼ごっこ">鬼ごっこ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/120-konigokkogame/" target="_blank" rel="noopener">おうちに帰れ！ ─ HD-2D かくれんぼ潜入</a></h3>
+    <p class="card-blurb">かくれんぼゲームです。5面が鬼門です。</p>
+    <time class="card-date" datetime="2026-08-30">2026.08.30</time>
+  </div>
+</article>
+<article class="card" data-genre="レース" data-day="44">
+  <a class="card-media" href="https://titan11111.github.io/046-dennsya/" target="_blank" rel="noopener">
+    <img src="shots/day044.jpg" alt="寸止め！ 停止位置 — 046-dennsya" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 044</span>
+      <span class="genre-pill" data-genre-pill="レース">レース</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/046-dennsya/" target="_blank" rel="noopener">寸止め！ 停止位置 — 046-dennsya</a></h3>
+    <p class="card-blurb">の電車ゲームを作りました。スピード感が好きです。ちょっと風景ができてもいいけど・・・</p>
+    <time class="card-date" datetime="2026-08-31">2026.08.31</time>
+  </div>
+</article>
+<article class="card" data-genre="まったり" data-day="45">
+  <a class="card-media" href="https://titan11111.github.io/045-relax-sanctuary/" target="_blank" rel="noopener">
+    <img src="shots/day045.jpg" alt="夜をほどく三景 — DAY 045" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 045</span>
+      <span class="genre-pill" data-genre-pill="まったり">まったり</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/045-relax-sanctuary/" target="_blank" rel="noopener">夜をほどく三景 — DAY 045</a></h3>
+    <p class="card-blurb">今日は疲れたので、開き直って癒すゲームを作りました🎶</p>
+    <time class="card-date" datetime="2026-09-01">2026.09.01</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="46">
+  <a class="card-media" href="https://titan11111.github.io/046-babeltower/" target="_blank" rel="noopener">
+    <img src="shots/day046.jpg" alt="バベル ─ 天への階" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 046</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/046-babeltower/" target="_blank" rel="noopener">バベル ─ 天への階</a></h3>
+    <p class="card-blurb">バベルゲームを作りました。30階までできたらかなりすごいです。</p>
+    <time class="card-date" datetime="2026-09-02">2026.09.02</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="47">
+  <a class="card-media" href="https://titan11111.github.io/278-elevator-chanbara/" target="_blank" rel="noopener">
+    <img src="shots/day047.jpg" alt="昇降斬 ─ 二百階の金塊" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 047</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/278-elevator-chanbara/" target="_blank" rel="noopener">昇降斬 ─ 二百階の金塊</a></h3>
+    <p class="card-blurb">鬼と戦いながら、エレベーター🛗で200階にある金塊を先にゲットするゲームです。ちょっと複雑でした。</p>
+    <time class="card-date" datetime="2026-09-03">2026.09.03</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="48">
+  <a class="card-media" href="https://titan11111.github.io/279-haisen-dash/" target="_blank" rel="noopener">
+    <img src="shots/day048.jpg" alt="廃線ダッシュ — 追ってくる何かから逃げろ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 048</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/279-haisen-dash/" target="_blank" rel="noopener">廃線ダッシュ — 追ってくる何かから逃げろ</a></h3>
+    <p class="card-blurb">何かやがて来るゲームを作ってみました。</p>
+    <time class="card-date" datetime="2026-09-04">2026.09.04</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="49">
+  <a class="card-media" href="https://titan11111.github.io/284-sennin-bandits/" target="_blank" rel="noopener">
+    <img src="shots/day049.jpg" alt="雲海仙人伝 — 山道の盗賊退治" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 049</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/284-sennin-bandits/" target="_blank" rel="noopener">雲海仙人伝 — 山道の盗賊退治</a></h3>
+    <p class="card-blurb">何かこう仙人のイメージを出して作りました。</p>
+    <time class="card-date" datetime="2026-09-05">2026.09.05</time>
+  </div>
+</article>
+<article class="card" data-genre="猫" data-day="50">
+  <a class="card-media" href="https://titan11111.github.io/285-kitten-pole-rescue/" target="_blank" rel="noopener">
+    <img src="shots/day050.jpg" alt="電柱レスキュー！こねこをおうちへ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 050</span>
+      <span class="genre-pill" data-genre-pill="猫">猫</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/285-kitten-pole-rescue/" target="_blank" rel="noopener">電柱レスキュー！こねこをおうちへ</a></h3>
+    <p class="card-blurb">やっと半分来ました。 電柱の登ってネコを助けるゲームです。</p>
+    <time class="card-date" datetime="2026-09-06">2026.09.06</time>
+  </div>
+</article>
+<article class="card" data-genre="レース" data-day="51">
+  <a class="card-media" href="https://titan11111.github.io/222-platform-wizard/" target="_blank" rel="noopener">
+    <img src="shots/day051.jpg" alt="222｜反対ホームの魔法使い" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 051</span>
+      <span class="genre-pill" data-genre-pill="レース">レース</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/222-platform-wizard/" target="_blank" rel="noopener">222｜反対ホームの魔法使い</a></h3>
+    <p class="card-blurb">反対ホームの魔法使いです。在宅サラリーマンを魔物から守るゲームです。</p>
+    <time class="card-date" datetime="2026-09-07">2026.09.07</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="52">
+  <a class="card-media" href="https://titan11111.github.io/227-shinobi-nyanko/" target="_blank" rel="noopener">
+    <img src="shots/day052.jpg" alt="しのびニャンコ ｜ おさかな大作戦" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 052</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/227-shinobi-nyanko/" target="_blank" rel="noopener">しのびニャンコ ｜ おさかな大作戦</a></h3>
+    <p class="card-blurb">ニャンコが人目を盗んでお魚を盗むゲームです。</p>
+    <time class="card-date" datetime="2026-09-08">2026.09.08</time>
+  </div>
+</article>
+<article class="card" data-genre="猫" data-day="53">
+  <a class="card-media" href="https://titan11111.github.io/228-mokkin-neko/" target="_blank" rel="noopener">
+    <img src="shots/day053.jpg" alt="木琴とネコ｜60秒のくつろがせゲーム" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 053</span>
+      <span class="genre-pill" data-genre-pill="猫">猫</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/228-mokkin-neko/" target="_blank" rel="noopener">木琴とネコ｜60秒のくつろがせゲーム</a></h3>
+    <p class="card-blurb">木琴とネコを作りました。 音色次第でネコの機嫌が変わるゲームをめざしました。</p>
+    <time class="card-date" datetime="2026-09-09">2026.09.09</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="54">
+  <a class="card-media" href="https://titan11111.github.io/229-dead-range/" target="_blank" rel="noopener">
+    <img src="shots/day054.jpg" alt="DEAD RANGE ─ ゾンビ狙撃" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 054</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/229-dead-range/" target="_blank" rel="noopener">DEAD RANGE ─ ゾンビ狙撃</a></h3>
+    <p class="card-blurb">驚き🧟ゲームを作りました🎵 背景の違和感が表現できて良かったです 。</p>
+    <time class="card-date" datetime="2026-09-10">2026.09.10</time>
+  </div>
+</article>
+<article class="card" data-genre="レース" data-day="55">
+  <a class="card-media" href="https://titan11111.github.io/GitHub-game/224-wild-panic-drive/" target="_blank" rel="noopener">
+    <img src="shots/day055.jpg" alt="夜道！どうぶつエスケープ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 055</span>
+      <span class="genre-pill" data-genre-pill="レース">レース</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/GitHub-game/224-wild-panic-drive/" target="_blank" rel="noopener">夜道！どうぶつエスケープ</a></h3>
+    <p class="card-blurb">タイトルが盛り上がっているゲームできました。 田舎道で猫、ウリボー、たぬきに出会ったのをゲームらしくて創りました🎶</p>
+    <time class="card-date" datetime="2026-09-11">2026.09.11</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="56">
+  <a class="card-media" href="https://titan11111.github.io/233-gyoretsu-sabaki-shotengai/" target="_blank" rel="noopener">
+    <img src="shots/day056.jpg" alt="行列さばき商店街" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 056</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/233-gyoretsu-sabaki-shotengai/" target="_blank" rel="noopener">行列さばき商店街</a></h3>
+    <p class="card-blurb">3Dをやってたくみ、行列をさばくゲームを作りました。シンプルですが、ぜひプレイできると嬉しいです。</p>
+    <time class="card-date" datetime="2026-09-12">2026.09.12</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="57">
+  <a class="card-media" href="https://titan11111.github.io/232-carorydas/" target="_blank" rel="noopener">
+    <img src="shots/day057.jpg" alt="カロリダス" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 057</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/232-carorydas/" target="_blank" rel="noopener">カロリダス</a></h3>
+    <p class="card-blurb">カロリーを意識して、カロリーカードゲームを創りました。思いの外ゲームらしくなりました。</p>
+    <time class="card-date" datetime="2026-09-13">2026.09.13</time>
+  </div>
+</article>
+<article class="card" data-genre="RPG" data-day="58">
+  <a class="card-media" href="https://titan11111.github.io/235-sand-king-saga/" target="_blank" rel="noopener">
+    <img src="shots/day058.jpg" alt="砂王記 -SAND KING SAGA-" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 058</span>
+      <span class="genre-pill" data-genre-pill="RPG">RPG</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/235-sand-king-saga/" target="_blank" rel="noopener">砂王記 -SAND KING SAGA-</a></h3>
+    <p class="card-blurb">最近さばくの世界観に憧れて作りました。UIがワクワクしてます。</p>
+    <time class="card-date" datetime="2026-09-14">2026.09.14</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="59">
+  <a class="card-media" href="https://titan11111.github.io/231-sky-reign/" target="_blank" rel="noopener">
+    <img src="shots/day059.jpg" alt="SKY REIGN 〜蒼穹の覇者〜" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 059</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/231-sky-reign/" target="_blank" rel="noopener">SKY REIGN 〜蒼穹の覇者〜</a></h3>
+    <p class="card-blurb">空を飛んでる鳥を観て、鳥の視点だったらどんな感じか作ってみました。</p>
+    <time class="card-date" datetime="2026-09-15">2026.09.15</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="60">
+  <a class="card-media" href="https://titan11111.github.io/236-life-sugoroku/" target="_blank" rel="noopener">
+    <img src="shots/day060.jpg" alt="ライフすごろく｜3D人生すごろく" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 060</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/236-life-sugoroku/" target="_blank" rel="noopener">ライフすごろく｜3D人生すごろく</a></h3>
+    <p class="card-blurb">スゴロクゲームが形になりました。 今後応用編も出来そうです。</p>
+    <time class="card-date" datetime="2026-09-16">2026.09.16</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="61">
+  <a class="card-media" href="https://titan11111.github.io/237-iai-samurai/" target="_blank" rel="noopener">
+    <img src="shots/day061.jpg" alt="一閃 IAI" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 061</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/237-iai-samurai/" target="_blank" rel="noopener">一閃 IAI</a></h3>
+    <p class="card-blurb">真剣勝負を創ってみました。以前よりも創れる幅が増えました。</p>
+    <time class="card-date" datetime="2026-09-17">2026.09.17</time>
+  </div>
+</article>
+<article class="card" data-genre="鬼ごっこ" data-day="62">
+  <a class="card-media" href="https://titan11111.github.io/234-kitaku-onigokko/" target="_blank" rel="noopener">
+    <img src="shots/day062.jpg" alt="帰宅鬼ごっこ 〜交番までダッシュ〜" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 062</span>
+      <span class="genre-pill" data-genre-pill="鬼ごっこ">鬼ごっこ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/234-kitaku-onigokko/" target="_blank" rel="noopener">帰宅鬼ごっこ 〜交番までダッシュ〜</a></h3>
+    <p class="card-blurb">途中帰宅に鬼に盛られる。無事に交番に逃げ込むゲーム作りました。</p>
+    <time class="card-date" datetime="2026-09-18">2026.09.18</time>
+  </div>
+</article>
+<article class="card" data-genre="ノベル" data-day="63">
+  <a class="card-media" href="https://titan11111.github.io/247-shiomiso/" target="_blank" rel="noopener">
+    <img src="shots/day063.jpg" alt="247｜潮見荘" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 063</span>
+      <span class="genre-pill" data-genre-pill="ノベル">ノベル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/247-shiomiso/" target="_blank" rel="noopener">247｜潮見荘</a></h3>
+    <p class="card-blurb">サウンドノベルを作ってみました。シーンの描画にこだわりました。</p>
+    <time class="card-date" datetime="2026-09-19">2026.09.19</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="64">
+  <a class="card-media" href="https://titan11111.github.io/241-shichirin-sanma/" target="_blank" rel="noopener">
+    <img src="shots/day064.jpg" alt="七輪 秋刀魚" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 064</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/241-shichirin-sanma/" target="_blank" rel="noopener">七輪 秋刀魚</a></h3>
+    <p class="card-blurb">さんま焼きバトルを作ってみました。 実際に七輪で食べたことはないです☺️</p>
+    <time class="card-date" datetime="2026-09-20">2026.09.20</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="65">
+  <a class="card-media" href="https://titan11111.github.io/242-konta-factory/" target="_blank" rel="noopener">
+    <img src="shots/day065.jpg" alt="コン太と夕焼け廃工場" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 065</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/242-konta-factory/" target="_blank" rel="noopener">コン太と夕焼け廃工場</a></h3>
+    <p class="card-blurb">アクションを久しぶりに作ってみました。よろしければプレイしてみてください。</p>
+    <time class="card-date" datetime="2026-09-21">2026.09.21</time>
+  </div>
+</article>
+<article class="card" data-genre="クイズ" data-day="66">
+  <a class="card-media" href="https://titan11111.github.io/251-sushi-kanji-shobu/" target="_blank" rel="noopener">
+    <img src="shots/day066.jpg" alt="寿司漢字勝負" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 066</span>
+      <span class="genre-pill" data-genre-pill="クイズ">クイズ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/251-sushi-kanji-shobu/" target="_blank" rel="noopener">寿司漢字勝負</a></h3>
+    <p class="card-blurb">寿司ネタ漢字ゲームです。3段階レベル調整できます！</p>
+    <time class="card-date" datetime="2026-09-22">2026.09.22</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="67">
+  <a class="card-media" href="https://titan11111.github.io/250-hoshimeguri-kokai-nisshi/" target="_blank" rel="noopener">
+    <img src="shots/day067.jpg" alt="星めぐり航海日誌" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 067</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/250-hoshimeguri-kokai-nisshi/" target="_blank" rel="noopener">星めぐり航海日誌</a></h3>
+    <p class="card-blurb">人類が移住先を求めて太陽系中を巡る旅をゲームにしました。先生たらプレイしてみてください。</p>
+    <time class="card-date" datetime="2026-09-23">2026.09.23</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="68">
+  <a class="card-media" href="https://titan11111.github.io/GitHub-game/258-otasuke-kyoshin-mamoru-g/" target="_blank" rel="noopener">
+    <img src="shots/day068.jpg" alt="おたすけ巨神マモルG" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 068</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/GitHub-game/258-otasuke-kyoshin-mamoru-g/" target="_blank" rel="noopener">おたすけ巨神マモルG</a></h3>
+    <p class="card-blurb">街の困ってる人を助け、お助けロボゲームを作りました。 小さい子でも遊べますように。</p>
+    <time class="card-date" datetime="2026-09-24">2026.09.24</time>
+  </div>
+</article>
+<article class="card" data-genre="レース" data-day="69">
+  <a class="card-media" href="https://titan11111.github.io/257-ippando-drive-3d/" target="_blank" rel="noopener">
+    <img src="shots/day069.jpg" alt="一般道ドライブ 3D" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 069</span>
+      <span class="genre-pill" data-genre-pill="レース">レース</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/257-ippando-drive-3d/" target="_blank" rel="noopener">一般道ドライブ 3D</a></h3>
+    <p class="card-blurb">今日は車ゲームを作ってみました。</p>
+    <time class="card-date" datetime="2026-09-25">2026.09.25</time>
+  </div>
+</article>
+<article class="card" data-genre="シミュレーション" data-day="70">
+  <a class="card-media" href="https://titan11111.github.io/261-hakureidake-tozan/" target="_blank" rel="noopener">
+    <img src="shots/day070.jpg" alt="白嶺岳 登山口から山頂へ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 070</span>
+      <span class="genre-pill" data-genre-pill="シミュレーション">シミュレーション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/261-hakureidake-tozan/" target="_blank" rel="noopener">白嶺岳 登山口から山頂へ</a></h3>
+    <p class="card-blurb">登山ゲームを作りました。若い頃の登山思い出しました。⛰️</p>
+    <time class="card-date" datetime="2026-09-26">2026.09.26</time>
+  </div>
+</article>
+<article class="card" data-genre="パズル" data-day="71">
+  <a class="card-media" href="https://titan11111.github.io/262-eto-keshi/" target="_blank" rel="noopener">
+    <img src="shots/day071.jpg" alt="干支けし" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 071</span>
+      <span class="genre-pill" data-genre-pill="パズル">パズル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/262-eto-keshi/" target="_blank" rel="noopener">干支けし</a></h3>
+    <p class="card-blurb">干支を並べてブレードゲームです。🐀🐮🐯などの3連が難しい😓です。先生たらプレイしてください</p>
+    <time class="card-date" datetime="2026-09-27">2026.09.27</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="72">
+  <a class="card-media" href="https://titan11111.github.io/264-jutai-drive/" target="_blank" rel="noopener">
+    <img src="shots/day072.jpg" alt="18:42発に間に合え｜渋滞ドライブ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 072</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/264-jutai-drive/" target="_blank" rel="noopener">18:42発に間に合え｜渋滞ドライブ</a></h3>
+    <p class="card-blurb">ドライビングスキルを学んで、駅に滑り込めるゲームです。ジリジリした日常を実現しました。もしかしたら叱られます。</p>
+    <time class="card-date" datetime="2026-09-28">2026.09.28</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="73">
+  <a class="card-media" href="https://titan11111.github.io/275-takegiri/" target="_blank" rel="noopener">
+    <img src="shots/day073.jpg" alt="竹斬 リアルサムライ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 073</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/275-takegiri/" target="_blank" rel="noopener">竹斬 リアルサムライ</a></h3>
+    <p class="card-blurb">侍の剣舞を体感するゲームを作りました。シュールがさがして満足しました</p>
+    <time class="card-date" datetime="2026-09-29">2026.09.29</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="74">
+  <a class="card-media" href="https://titan11111.github.io/266-nekotsumi/" target="_blank" rel="noopener">
+    <img src="shots/day074.jpg" alt="ねこつみ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 074</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/266-nekotsumi/" target="_blank" rel="noopener">ねこつみ</a></h3>
+    <p class="card-blurb">は、ねこつみゲーを作りました。犬に気をつけてください🐕</p>
+    <time class="card-date" datetime="2026-09-30">2026.09.30</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="75">
+  <a class="card-media" href="https://titan11111.github.io/274-takigyo-mousou/" target="_blank" rel="noopener">
+    <img src="shots/day075.jpg" alt="滝行と煩悩" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 075</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/274-takigyo-mousou/" target="_blank" rel="noopener">滝行と煩悩</a></h3>
+    <p class="card-blurb">滝行僧と煩悩戦いをゲームしました。 湧き上がる煩悩を抑え、無事に修行を終えたらクリアです。</p>
+    <time class="card-date" datetime="2026-10-01">2026.10.01</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="76">
+  <a class="card-media" href="https://titan11111.github.io/301-deaigashira-crash/" target="_blank" rel="noopener">
+    <img src="shots/day076.jpg" alt="出会い頭クラッシュ！〜遅刻遅刻〜" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 076</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/301-deaigashira-crash/" target="_blank" rel="noopener">出会い頭クラッシュ！〜遅刻遅刻〜</a></h3>
+    <p class="card-blurb">よくあるラブコメワンシーン再現ゲームです。上手に演じられるかがキーです。</p>
+    <time class="card-date" datetime="2026-10-02">2026.10.02</time>
+  </div>
+</article>
+<article class="card" data-genre="パズル" data-day="77">
+  <a class="card-media" href="https://titan11111.github.io/305-eto-keshi2/" target="_blank" rel="noopener">
+    <img src="shots/day077.jpg" alt="干支けし2 まわして、そろえる" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 077</span>
+      <span class="genre-pill" data-genre-pill="パズル">パズル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/305-eto-keshi2/" target="_blank" rel="noopener">干支けし2 まわして、そろえる</a></h3>
+    <p class="card-blurb">3分で干支をどれだけ消せるかのゲームです。ラーメンできる途中でもプレイしてもらえると嬉しいです。 ↓プレイはこちら</p>
+    <time class="card-date" datetime="2026-10-03">2026.10.03</time>
+  </div>
+</article>
+<article class="card" data-genre="RPG" data-day="78">
+  <a class="card-media" href="https://titan11111.github.io/326-yuusha-no-hinan-sakusen/" target="_blank" rel="noopener">
+    <img src="shots/day078.jpg" alt="勇者の避難作戦・救出アップデート" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 078</span>
+      <span class="genre-pill" data-genre-pill="RPG">RPG</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/326-yuusha-no-hinan-sakusen/" target="_blank" rel="noopener">勇者の避難作戦・救出アップデート</a></h3>
+    <p class="card-blurb">） 日付けが1日飛んでいたので、今日は2つアップします。 困った子どもたちを魔物にさらされず、勇者が守って歩くゲーム…</p>
+    <time class="card-date" datetime="2026-10-21">2026.10.21</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="79">
+  <a class="card-media" href="https://titan11111.github.io/289-neon-dash/" target="_blank" rel="noopener">
+    <img src="shots/day079.jpg" alt="289｜LUNAR STRIKER 月面機動ロボ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 079</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/289-neon-dash/" target="_blank" rel="noopener">289｜LUNAR STRIKER 月面機動ロボ</a></h3>
+    <p class="card-blurb">ロボゲーム第二弾を作りました。SVGでの表現、ステージ構成にこだわりました。</p>
+    <time class="card-date" datetime="2026-10-04">2026.10.04</time>
+  </div>
+</article>
+<article class="card" data-genre="ノベル" data-day="80">
+  <a class="card-media" href="https://titan11111.github.io/308-day080/" target="_blank" rel="noopener">
+    <img src="shots/day080.jpg" alt="定刻" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 080</span>
+      <span class="genre-pill" data-genre-pill="ノベル">ノベル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/308-day080/" target="_blank" rel="noopener">定刻</a></h3>
+    <p class="card-blurb">サウンドノベルを創りました。雰囲気が盛り上がると思います。短い言葉で状況を伝え、集中しました。</p>
+    <time class="card-date" datetime="2026-10-05">2026.10.05</time>
+  </div>
+</article>
+<article class="card" data-genre="ホラー" data-day="81">
+  <a class="card-media" href="https://titan11111.github.io/309-kyojin-no-ashiato/" target="_blank" rel="noopener">
+    <img src="shots/day081.jpg" alt="巨人の足跡 火の国編" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 081</span>
+      <span class="genre-pill" data-genre-pill="ホラー">ホラー</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/309-kyojin-no-ashiato/" target="_blank" rel="noopener">巨人の足跡 火の国編</a></h3>
+    <p class="card-blurb">シュールなロールプレイングを創ってみました。わがままな人が多数登場しますW長いので第一章までです。</p>
+    <time class="card-date" datetime="2026-10-06">2026.10.06</time>
+  </div>
+</article>
+<article class="card" data-genre="パズル" data-day="82">
+  <a class="card-media" href="https://titan11111.github.io/312-animal-race-gp/" target="_blank" rel="noopener">
+    <img src="shots/day082.jpg" alt="TITAN ANIMAL RACE GP" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 082</span>
+      <span class="genre-pill" data-genre-pill="パズル">パズル</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/312-animal-race-gp/" target="_blank" rel="noopener">TITAN ANIMAL RACE GP</a></h3>
+    <p class="card-blurb">アニマルレースをゲームにしました。干支が走る話し方をイメージして創りました。（動画貼り忘れ、再投稿します） ↓プレイ</p>
+    <time class="card-date" datetime="2026-10-08">2026.10.08</time>
+  </div>
+</article>
+<article class="card" data-genre="レース" data-day="83">
+  <a class="card-media" href="https://titan11111.github.io/310-titan-battle-gp/" target="_blank" rel="noopener">
+    <img src="shots/day083.jpg" alt="TITAN BATTLE GP" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 083</span>
+      <span class="genre-pill" data-genre-pill="レース">レース</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/310-titan-battle-gp/" target="_blank" rel="noopener">TITAN BATTLE GP</a></h3>
+    <p class="card-blurb">今日の続き、レーシングゲームです。ただ、マシンが変形します！そしてコースを走ります</p>
+    <time class="card-date" datetime="2026-10-08">2026.10.08</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="84">
+  <a class="card-media" href="https://titan11111.github.io/313-kyonin-kagemaru/" target="_blank" rel="noopener">
+    <img src="shots/day084.jpg" alt="巨忍 影丸 ─ KYODAI NINJA KAGEMARU" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 084</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/313-kyonin-kagemaru/" target="_blank" rel="noopener">巨忍 影丸 ─ KYODAI NINJA KAGEMARU</a></h3>
+    <p class="card-blurb">昔の巨大なキャラが動き回っていたゲームを自分で作って、巨大忍者🥷ゲームを作りました</p>
+    <time class="card-date" datetime="2026-10-09">2026.10.09</time>
+  </div>
+</article>
+<article class="card" data-genre="猫" data-day="85">
+  <a class="card-media" href="https://titan11111.github.io/315-neko-furu/" target="_blank" rel="noopener">
+    <img src="shots/day085.jpg" alt="ねこ、ふる。" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 085</span>
+      <span class="genre-pill" data-genre-pill="猫">猫</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/315-neko-furu/" target="_blank" rel="noopener">ねこ、ふる。</a></h3>
+    <p class="card-blurb">平日があまりに忙しかったので、また系を作ってみました。 🐈</p>
+    <time class="card-date" datetime="2026-10-10">2026.10.10</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="86">
+  <a class="card-media" href="https://titan11111.github.io/314-nezou-no-kamisama/" target="_blank" rel="noopener">
+    <img src="shots/day086.jpg" alt="寝相の神様" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 086</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/314-nezou-no-kamisama/" target="_blank" rel="noopener">寝相の神様</a></h3>
+    <p class="card-blurb">寝相の悪い田中さんから家族を守るゲームです。 みんなの安眠を守れるか。 ぜひプレイしてみてください。</p>
+    <time class="card-date" datetime="2026-10-11">2026.10.11</time>
+  </div>
+</article>
+<article class="card" data-genre="ホラー" data-day="87">
+  <a class="card-media" href="https://titan11111.github.io/316-korogari-kyubin/" target="_blank" rel="noopener">
+    <img src="shots/day087.jpg" alt="ころがり急便" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 087</span>
+      <span class="genre-pill" data-genre-pill="ホラー">ホラー</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/316-korogari-kyubin/" target="_blank" rel="noopener">ころがり急便</a></h3>
+    <p class="card-blurb">怖がりなのに、シュールな怖さをゲームにしました。ゆっくり配達すると呪われます。</p>
+    <time class="card-date" datetime="2026-10-12">2026.10.12</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="88">
+  <a class="card-media" href="https://titan11111.github.io/321-goken-no-majo/" target="_blank" rel="noopener">
+    <img src="shots/day088.jpg" alt="闘え！石工ガルド — 魔力ゼロの拳で魔城を砕け" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 088</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/321-goken-no-majo/" target="_blank" rel="noopener">闘え！石工ガルド — 魔力ゼロの拳で魔城を砕け</a></h3>
+    <p class="card-blurb">しっかりしたベルトアクションにチャレンジしました。魔法使い軍団に、拳で勝負ゲームです。</p>
+    <time class="card-date" datetime="2026-10-13">2026.10.13</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="89">
+  <a class="card-media" href="https://titan11111.github.io/319-karasu-kakidoro/" target="_blank" rel="noopener">
+    <img src="shots/day089.jpg" alt="夕暮れカラスの柿どろぼう" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 089</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/319-karasu-kakidoro/" target="_blank" rel="noopener">夕暮れカラスの柿どろぼう</a></h3>
+    <p class="card-blurb">柿を巡るカラスと爺さんの攻撃防御ゲーム作りました。シンプルです。</p>
+    <time class="card-date" datetime="2026-10-14">2026.10.14</time>
+  </div>
+</article>
+<article class="card" data-genre="鬼ごっこ" data-day="90">
+  <a class="card-media" href="https://titan11111.github.io/320-midnight-lapis/" target="_blank" rel="noopener">
+    <img src="shots/day090.jpg" alt="MIDNIGHT LAPIS — 夜の博物館" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 090</span>
+      <span class="genre-pill" data-genre-pill="鬼ごっこ">鬼ごっこ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/320-midnight-lapis/" target="_blank" rel="noopener">MIDNIGHT LAPIS — 夜の博物館</a></h3>
+    <p class="card-blurb">宝石を盗んで、警備員を避けて逃げるゲームです。 複雑になるほど指示が難しい😓</p>
+    <time class="card-date" datetime="2026-10-15">2026.10.15</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="91">
+  <a class="card-media" href="https://titan11111.github.io/323-hikari-no-shizuku/" target="_blank" rel="noopener">
+    <img src="shots/day091.jpg" alt="ひかりのしずく ― ぷるぷるスライム大冒険" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 091</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/323-hikari-no-shizuku/" target="_blank" rel="noopener">ひかりのしずく ― ぷるぷるスライム大冒険</a></h3>
+    <p class="card-blurb">スライムが分裂、洗脳、雲、巨大化など多種多様に変化して攻略するゲームする。</p>
+    <time class="card-date" datetime="2026-10-16">2026.10.16</time>
+  </div>
+</article>
+<article class="card" data-genre="鬼ごっこ" data-day="92">
+  <a class="card-media" href="https://titan11111.github.io/322-bokura-no-yuyake-machi/" target="_blank" rel="noopener">
+    <img src="shots/day092.jpg" alt="ぼくらの夕やけ町" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 092</span>
+      <span class="genre-pill" data-genre-pill="鬼ごっこ">鬼ごっこ</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/322-bokura-no-yuyake-machi/" target="_blank" rel="noopener">ぼくらの夕やけ町</a></h3>
+    <p class="card-blurb">昭和っぽさとゲーム感を融合しました。かくれんぼ、鬼ごっこ両方できます。</p>
+    <time class="card-date" datetime="2026-10-17">2026.10.17</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="93">
+  <a class="card-media" href="https://titan11111.github.io/318-catch-the-phone/" target="_blank" rel="noopener">
+    <img src="shots/day093.jpg" alt="キャッチ・ザ・スマホ！" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 093</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/318-catch-the-phone/" target="_blank" rel="noopener">キャッチ・ザ・スマホ！</a></h3>
+    <p class="card-blurb">ふと見るとスマホ民が9割。あっ自分もやってた。どこか、ヒントを得てスマホ民を避けてゴールを目指すゲーム</p>
+    <time class="card-date" datetime="2026-10-18">2026.10.18</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="94">
+  <a class="card-media" href="https://titan11111.github.io/302-butterfly-garden/" target="_blank" rel="noopener">
+    <img src="shots/day094.jpg" alt="夜の庭 — 蝶のアトリエ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 094</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/302-butterfly-garden/" target="_blank" rel="noopener">夜の庭 — 蝶のアトリエ</a></h3>
+    <p class="card-blurb">忙しい日々にゴールのないものを作りました。好きな模様の蝶々🦋を創造するゲームです。</p>
+    <time class="card-date" datetime="2026-10-19">2026.10.19</time>
+  </div>
+</article>
+<article class="card" data-genre="アクション" data-day="95">
+  <a class="card-media" href="https://titan11111.github.io/325-day097/" target="_blank" rel="noopener">
+    <img src="shots/day095.jpg" alt="ラクガキ・ファイターズ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 095</span>
+      <span class="genre-pill" data-genre-pill="アクション">アクション</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/325-day097/" target="_blank" rel="noopener">ラクガキ・ファイターズ</a></h3>
+    <p class="card-blurb">落書き格ゲーを作ってみました。 落書きキャラもパンチキックができます。</p>
+    <time class="card-date" datetime="2026-10-20">2026.10.20</time>
+  </div>
+</article>
+<article class="card" data-genre="シューティング" data-day="96">
+  <a class="card-media" href="https://titan11111.github.io/327-seoi-rocket-gp/" target="_blank" rel="noopener">
+    <img src="shots/day096.jpg" alt="背負いロケット グランプリ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 096</span>
+      <span class="genre-pill" data-genre-pill="シューティング">シューティング</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/327-seoi-rocket-gp/" target="_blank" rel="noopener">背負いロケット グランプリ</a></h3>
+    <p class="card-blurb">ロケット人間のレースゲームを作りました。高速で世界や宇宙旅行を助けます ロケット</p>
+    <time class="card-date" datetime="2026-10-21">2026.10.21</time>
+  </div>
+</article>
+<article class="card" data-genre="シューティング" data-day="97">
+  <a class="card-media" href="https://titan11111.github.io/328-stealth-orbit/" target="_blank" rel="noopener">
+    <img src="shots/day097.jpg" alt="STEALTH ORBIT" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 097</span>
+      <span class="genre-pill" data-genre-pill="シューティング">シューティング</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/328-stealth-orbit/" target="_blank" rel="noopener">STEALTH ORBIT</a></h3>
+    <p class="card-blurb">UFO🛸が太陽系を探索するゲームです。 ぜひプレイしてみてください</p>
+    <time class="card-date" datetime="2026-10-22">2026.10.22</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="98">
+  <a class="card-media" href="https://titan11111.github.io/330-oyakudachi-sniper/" target="_blank" rel="noopener">
+    <img src="shots/day098.jpg" alt="HELPFUL SNIPER — おやくだちスナイパー" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 098</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/330-oyakudachi-sniper/" target="_blank" rel="noopener">HELPFUL SNIPER — おやくだちスナイパー</a></h3>
+    <p class="card-blurb">お役立ちスナイパーです。日常のなんとなくをゴム銃で解決するゲームです昨日。バスや夜店、信号機、駅などあります。の修正…</p>
+    <time class="card-date" datetime="2026-10-24">2026.10.24</time>
+  </div>
+</article>
+<article class="card" data-genre="シューティング" data-day="99">
+  <a class="card-media" href="https://titan11111.github.io/332-return-vector/" target="_blank" rel="noopener">
+    <img src="shots/day099.jpg" alt="RETURN VECTOR" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 099</span>
+      <span class="genre-pill" data-genre-pill="シューティング">シューティング</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/332-return-vector/" target="_blank" rel="noopener">RETURN VECTOR</a></h3>
+    <p class="card-blurb">星を調査し、その星の岩石を無事に地球に持ち帰るゲームです。着陸が最後の難度です。</p>
+    <time class="card-date" datetime="2026-10-24">2026.10.24</time>
+  </div>
+</article>
+<article class="card" data-genre="その他" data-day="100">
+  <a class="card-media" href="https://titan11111.github.io/334-ryusen/" target="_blank" rel="noopener">
+    <img src="shots/day100.jpg" alt="流川 RYUSEN — 世界激流レガッタ" loading="lazy" width="960" height="540">
+    <span class="card-play">▶ プレイする</span>
+  </a>
+  <div class="card-body">
+    <div class="card-top">
+      <span class="day-badge">Day 100</span>
+      <span class="genre-pill" data-genre-pill="その他">その他</span>
+    </div>
+    <h3 class="card-title"><a href="https://titan11111.github.io/334-ryusen/" target="_blank" rel="noopener">流川 RYUSEN — 世界激流レガッタ</a></h3>
+    <p class="card-blurb">完了迫力にこだわって作らせていただきました。 ぜひ興味のある方はプレイしてください。</p>
+    <time class="card-date" datetime="2026-10-25">2026.10.25</time>
+  </div>
+</article>
+      </div>
+      <p class="empty-state" id="emptyState">このジャンルの公開作品はまだありません。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>制作・投稿：<a href="https://x.com/CSTUyrqitZ24672" target="_blank" rel="noopener">@___titan_</a>（X / 旧Twitter）</span>
+      <span>全作品は <a href="https://titan11111.github.io/" target="_blank" rel="noopener">GitHub Pages</a> で無料プレイ可能</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var grid = document.getElementById('grid');
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var emptyState = document.getElementById('emptyState');
+  var shuffleBtn = document.getElementById('shuffleBtn');
+
+  // reveal on scroll
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+    cards.forEach(function(c){ io.observe(c); });
+  } else {
+    cards.forEach(function(c){ c.classList.add('in-view'); });
+  }
+
+  function applyFilter(genre){
+    var visible = 0;
+    cards.forEach(function(c){
+      var match = (genre === 'all') || (c.getAttribute('data-genre') === genre);
+      c.classList.toggle('is-hidden', !match);
+      if (match) visible++;
+    });
+    emptyState.classList.toggle('show', visible === 0);
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      applyFilter(chip.getAttribute('data-filter'));
+    });
+  });
+
+  shuffleBtn.addEventListener('click', function(){
+    var playable = cards.filter(function(c){ return !c.classList.contains('card-pending'); });
+    if (!playable.length) return;
+    var pick = playable[Math.floor(Math.random() * playable.length)];
+    chips.forEach(function(c){ c.classList.remove('active'); });
+    document.querySelector('.chip[data-filter="all"]').classList.add('active');
+    applyFilter('all');
+    pick.scrollIntoView({behavior: 'smooth', block: 'center'});
+    pick.classList.add('flash');
+    setTimeout(function(){ pick.classList.remove('flash'); }, 1600);
+  });
+})();
+</script>
+<script>
+(function(){
+  var url=location.origin+location.pathname;
+  var text='深夜ゲーム工房｜ひとりで100本、ゲームを作った。 #100日チャレンジ';
+  var e=encodeURIComponent;
+  document.getElementById('shX').href='https://x.com/intent/post?text='+e(text)+'&url='+e(url);
+  document.getElementById('shLine').href='https://social-plugins.line.me/lineit/share?url='+e(url);
+  document.getElementById('shFb').href='https://www.facebook.com/sharer/sharer.php?u='+e(url);
+  var b=document.getElementById('shCopy');
+  b.addEventListener('click',function(){
+    function done(){b.textContent='✓ コピーしました';setTimeout(function(){b.textContent='🔗 リンクをコピー';},1800);}
+    if(navigator.share){navigator.share({title:document.title,text:text,url:url}).catch(function(){});return;}
+    if(navigator.clipboard){navigator.clipboard.writeText(url).then(done,function(){prompt('このURLをコピーしてください',url);});}
+    else{prompt('このURLをコピーしてください',url);}
+  });
+})();
+</script>
+</body>
+</html>
